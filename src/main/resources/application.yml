@@ -1,18 +1,27 @@
 server:
-  port: 9000
+  port: 8080
 
 spring:
   cloud:
     gateway:
       routes:
         - id: producto-service
-          uri: http://localhost:8080
+          uri: http://springboot-api:8080
+          predicates:
+            - Path=/api/productos/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: productoCB
+                fallbackUri: forward:/default
+
+        - id: producto-service-simple
+          uri: http://springboot-api:8080
           predicates:
             - Path=/
           filters:
             - RewritePath=/(.*), /api/productos
-
-        - id: producto-service
-          uri: http://localhost:8080
-          predicates:
-            - Path=/api/productos/**
+            - name: CircuitBreaker
+              args:
+                name: productoCB
+                fallbackUri: forward:/default
