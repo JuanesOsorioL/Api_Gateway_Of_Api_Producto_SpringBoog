@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8282
 
 spring:
   cloud:
@@ -9,18 +9,18 @@ spring:
           uri: http://springboot-api:8080
           predicates:
             - Path=/api/productos/**
+          metadata:
+            cors:
+              allowedOrigins: '*'
+              allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - OPTIONS
+              allowedHeaders: '*'
+              maxAge: 30
           filters:
-            - name: CircuitBreaker
-              args:
-                name: productoCB
-                fallbackUri: forward:/default
-
-        - id: producto-service-simple
-          uri: http://springboot-api:8080
-          predicates:
-            - Path=/
-          filters:
-            - RewritePath=/(.*), /api/productos
             - name: CircuitBreaker
               args:
                 name: productoCB
