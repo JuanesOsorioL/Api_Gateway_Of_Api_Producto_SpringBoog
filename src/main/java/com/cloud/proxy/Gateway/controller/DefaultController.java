@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
+/*
 @CrossOrigin(origins = {
         "http://127.0.0.1:5501",
-        "http://localhost:5501",
-        "http://localhost:8282/api/productos",
-        "http://localhost:8282"
-})
+        "http://localhost:5501"
+})*/
 public class DefaultController {
 
     @RequestMapping("/default")

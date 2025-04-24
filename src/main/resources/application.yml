@@ -4,22 +4,35 @@ server:
 spring:
   cloud:
     gateway:
+      global cors:
+        corsConfigurations:
+          '[/]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
       routes:
         - id: producto-service
           uri: http://springboot-api:8080
           predicates:
             - Path=/api/productos/**
-          metadata:
-            cors:
-              allowedOrigins: '*'
-              allowedMethods:
-                - GET
-                - POST
-                - PUT
-                - DELETE
-                - OPTIONS
-              allowedHeaders: '*'
-              maxAge: 30
+          #          metadata:
+          #            cors:
+          #              allowedOrigins: '*'
+          #              allowedMethods:
+          #                - GET
+          #                - POST
+          #                - PUT
+          #                - DELETE
+          #                - OPTIONS
+          #              allowedHeaders: '*'
+          #              allowCredentials: true
+          #              maxAge: 30
           filters:
             - name: CircuitBreaker
               args:
