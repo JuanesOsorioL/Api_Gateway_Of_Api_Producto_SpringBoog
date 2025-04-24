@@ -1,13 +1,16 @@
 server:
-  port: 8282
+  port: 9091
 
 spring:
   cloud:
     gateway:
-      global cors:
-        corsConfigurations:
-          '[/]':
-            allowedOrigins: "*"
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:8081"
+              - "http://127.0.0.1:5501"
             allowedMethods:
               - GET
               - POST
@@ -15,24 +18,13 @@ spring:
               - DELETE
               - OPTIONS
             allowedHeaders: "*"
-            allowCredentials: true
+            allowCredentials: false
+            maxAge: 3600
       routes:
         - id: producto-service
-          uri: http://springboot-api:8080
+          uri: http://localhost:8080
           predicates:
             - Path=/api/productos/**
-          #          metadata:
-          #            cors:
-          #              allowedOrigins: '*'
-          #              allowedMethods:
-          #                - GET
-          #                - POST
-          #                - PUT
-          #                - DELETE
-          #                - OPTIONS
-          #              allowedHeaders: '*'
-          #              allowCredentials: true
-          #              maxAge: 30
           filters:
             - name: CircuitBreaker
               args:
